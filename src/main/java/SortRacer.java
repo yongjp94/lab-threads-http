@@ -1,3 +1,5 @@
+import com.sun.xml.internal.bind.v2.model.annotation.Quick;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,25 +13,50 @@ import java.util.Random;
  */
 public class SortRacer {
 
+
+	public static class MergeSort implements Runnable {
+		public MergeSort() {}
+		@Override
+		public void run() {
+			Integer[] nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
+			System.out.println("Starting merge sort at "+ dateFormat.format(new Date()));
+			Sorting.mergeSort(nums);
+			System.out.println("Merge sort finished at "+ dateFormat.format(new Date())+" !");
+		}
+	}
+
+	public static class QuickSort implements Runnable {
+		public QuickSort() {}
+		@Override
+		public void run() {
+			Integer[] nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
+			System.out.println("Starting quicksort at "+dateFormat.format(new Date()));
+			Sorting.quickSort(nums);
+			System.out.println("Quicksort finished at "+dateFormat.format(new Date())+" !");
+		}
+	}
+
 	public static void main(String[] args) 
 	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
-		Integer[] nums;
-
-		
 		/** Merge Sort **/
-		nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
+		MergeSort ms = new MergeSort();
 
-		System.out.println("Starting merge sort at "+dateFormat.format(new Date()));
-		Sorting.mergeSort(nums);
-		System.out.println("Merge sort finished at "+dateFormat.format(new Date())+" !");
-
-		
 		/** Quick Sort **/
-		nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
-		System.out.println("Starting quicksort at "+dateFormat.format(new Date()));
-		Sorting.quickSort(nums);
-		System.out.println("Quicksort finished at "+dateFormat.format(new Date())+" !");
+		QuickSort qs = new QuickSort();
+
+		// Initialize threads
+		Thread[] threads = new Thread[2];
+		threads[0] = new Thread(ms);
+		threads[1] = new Thread(qs);
+
+		// Start each thread
+		for (int i = 0; i < threads.length; i++) {
+			threads[i].start();
+			System.out.println("Thread #" + i + " has started.");
+		}
+
 	}
 	
 	

@@ -18,6 +18,14 @@ import java.util.Scanner;
  */
 public class MovieDownloader {
 
+	/**
+	 * Accepts a movie keyword in String format to send an HTTP request
+	 * to the OMDB API to query for movies with a title that matches the keyword.
+	 * The resulting JSON contains title, year released, imdbID, type, and URL
+	 * to the poster image.
+	 * @param movie Movie Keyword
+	 * @return String[] Array of String JSON data about found movie
+	 */
 	public static String[] downloadMovieData(String movie) {
 
 		//construct the url for the omdbapi API
